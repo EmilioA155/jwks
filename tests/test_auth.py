@@ -61,4 +61,3 @@ def test_auth_500_when_no_key(client, monkeypatch):
 def test_get_auth_not_allowed(client):
     assert client.get("/auth").status_code == 405
     assert client.put("/auth").status_code == 405
-    

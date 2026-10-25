@@ -24,4 +24,3 @@ def test_jwks_lists_all_valid_keys(client):
 
 def test_jwks_post_not_allowed(client):
     assert client.post("/.well-known/jwks.json").status_code == 405
-    
