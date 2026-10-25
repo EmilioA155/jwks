@@ -23,4 +23,5 @@ def db_file(tmp_path, monkeypatch):
 def client(db_file):
 
     key_manager.ensure_keys()
+    
     return flask_app.test_client()
