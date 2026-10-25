@@ -25,3 +25,4 @@ def client(db_file):
     key_manager.ensure_keys()
     
     return flask_app.test_client()
+    
