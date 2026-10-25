@@ -42,3 +42,4 @@ def test_injection_string_is_stored_as_data(db_file):
     row = db.get_key(expired=False)
     assert row[1] == evil
     assert len(db.get_valid_keys()) == 1
+    
