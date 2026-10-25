@@ -31,7 +31,8 @@ def ensure_keys(db_file=None):
 
 
     Keys are only generated when missing, so they persist across restarts.
-    """
+    def ensure_keys(db_file=None):
+        
     db.init_db(db_file)
     now = int(time.time())
 
