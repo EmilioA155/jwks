@@ -1,36 +1,53 @@
-# JWKS
-
-# JWKS Server
+# JWKS Server (Project 2)
 
 Emilio Arellano  
 **Course:** CSCE 3550  
-**Project:** RESTful JWKS Server
+**Project:** SQLite-backed JWKS Server
 
 ## Overview
 
-This project implements a RESTful JWKS (JSON Web Key Set) server using Python and Flask. The server generates RSA key pairs, assigns unique Key IDs (`kid`), tracks key expiration, serves public keys in JWKS format, and issues signed JWTs.
+A RESTful JWKS server built with Python and Flask. RSA private keys are stored in a
+SQLite database (`totally_not_my_privateKeys.db`) so they persist across restarts.
+Keys are serialized to PKCS1 PEM before being saved and deserialized when read.
 
-The project supports both valid and expired JWT issuance for testing purposes.
+All SQL queries use `?` parameters, so values are never formatted into query
+strings, which prevents SQL injection.
 
----
+## Endpoints
 
-## Features
+- `POST /auth` signs and returns a JWT using a valid key from the database.
+  With `?expired`, it signs with an expired key instead.
+- `GET /.well-known/jwks.json` returns the public keys for all unexpired keys.
 
-- RSA key pair generation
-- Unique `kid` values for each key
-- Key expiration support
-- JWKS endpoint
-- JWT authentication endpoint
-- Expired JWT support
-- RS256 token signing
-- Pytest test suite
-- 98% test coverage
+## Project Structure
 
----
+- `app.py`: Flask routes
+- `db.py`: SQLite schema and parameterized queries
+- `key_manager.py`: RSA key generation, PEM serialization, seeding the DB
+- `tests/`: pytest suite
 
-## Requirements
-
-Install dependencies:
+## Setup and Running
 
 ```bash
 pip install flask pyjwt cryptography pytest pytest-cov
+python3 app.py
+```
+
+The server runs on port 8080 and creates the database on first start, with one
+valid key and one expired key.
+
+## Tests
+
+```bash
+python3 -m pytest --cov=. --cov-report=term-missing
+```
+
+Coverage: 98%
+
+## Screenshots
+
+### Test coverage
+![Coverage](coverage.png)
+
+### Gradebot results
+![Gradebot](gradebot.png)
