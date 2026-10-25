@@ -72,3 +72,4 @@ def get_valid_keys(db_file=None):
             "SELECT kid, key, exp FROM keys WHERE exp > ?",
             (now,),
         ).fetchall()
+        
