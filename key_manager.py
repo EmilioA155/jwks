@@ -1,3 +1,4 @@
+# RSA key generation, (de)serialization, and seeding the database.
 import time
 
 from cryptography.hazmat.primitives import serialization
@@ -9,12 +10,10 @@ ONE_HOUR = 3600
 
 
 def generate_private_key():
-
     return rsa.generate_private_key(public_exponent=65537, key_size=2048)
 
 
 def serialize_key(private_key):
-
     return private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PrivateFormat.TraditionalOpenSSL,  # PKCS1
@@ -23,16 +22,12 @@ def serialize_key(private_key):
 
 
 def deserialize_key(pem):
-
+    # PKCS1 PEM bytes -> private key object.
     return serialization.load_pem_private_key(pem, password=None)
 
 
 def ensure_keys(db_file=None):
-
-
-    Keys are only generated when missing, so they persist across restarts.
-    def ensure_keys(db_file=None):
-        
+    # Make sure the DB has one valid and one expired key.
     db.init_db(db_file)
     now = int(time.time())
 
